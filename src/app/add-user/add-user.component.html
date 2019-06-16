@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <form>
+    <fieldset>
+      <div class="form-group row justify-content-md-left">
+        <label for="firstName" class="col-sm-2 col-form-label">First Name: *</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="firstName">
+        </div>
+      </div>
+      <div class="form-group row justify-content-md-left">
+        <label for="lastName" class="col-sm-2 col-form-label">Last Name:</label>
+        <div class="col-sm-5">
+          <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="lastName">
+        </div>
+      </div>
+      <div class="form-group row justify-content-md-left">
+        <label for="empid" class="col-sm-2 col-form-label">Employee ID: *</label>
+        <div class="col-sm-5">
+          <input type="number" min="1" max="30" class="form-control" id="employeeId" name="employeeId" [(ngModel)]="employeeId">
+        </div>
+      </div>
+    </fieldset>
+    <div *ngIf="!editFlag; else editUser" class="row justify-content-md-center">
+      <button type="submit" class="btn btn-primary mr-2" (click)="onUserSubmit()">Add User</button>
+      <button type="reset" class="btn btn-primary" (click)="onReset()">Reset</button>
+    </div>
+    <ng-template #editUser>
+      <div class="row justify-content-md-center">
+        <button type="submit" class="btn btn-primary mr-2" (click)="onUpdateUser()">Update</button>
+        <button type="reset" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+      </div>
+    </ng-template>
+
+  </form>
+  <hr>
+  <div class="mb-3">
+    <input type="text" placeholder="Search...">
+    <span class="ml-5 mr-2">Sort:   </span>
+    <button class="btn btn-primary mr-3">First Name</button>
+    <button class="btn btn-primary mr-3">Last Name</button>
+    <button class="btn btn-primary mr-3">Emp ID</button>
+  </div>
+  <div>
+    <table class="table">
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Employee ID</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let user of users">
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.employeeId }}</td>
+        <td>
+          <button class="btn btn-primary mr-1" (click)="onEdit(user)">Edit</button>
+          <button class="btn btn-primary mr-1" (click)="onDelete(user)">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
