@@ -1,3 +1,78 @@
-<p>
-  add-project works!
-</p>
+<div class="container mt-4">
+  <form>
+    <fieldset>
+      <div class="form-group row justify-content-md-left">
+        <label for="title" class="col-sm-2 col-form-label">Project: *</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" id="title" name="title" [(ngModel)]="title">
+        </div>
+      </div>
+      <div class="form-group row justify-content-md-left">
+        <label for="startDate" class="col-sm-2 col-form-label">Start Date: *</label>
+        <div class="col-sm-2">
+          <input type="date" class="form-control" id="startDate" name="startDate" [(ngModel)]="startDate">
+        </div>
+        <label for="endDate" class="col-sm-2 col-form-label">End Date: *</label>
+        <div class="col-sm-2">
+          <input type="date" class="form-control" id="endDate" name="endDate" [(ngModel)]="endDate">
+        </div>
+      </div>
+      <div class="form-group row justify-content-md-left">
+        <label for="priority" class="col-sm-2 col-form-label">Priority: *</label>
+        <div class="col-sm-6">
+          <input type="number" min="1" max="30" class="form-control" id="priority" name="priority" [(ngModel)]="priority">
+        </div>
+      </div>
+      <div class="form-group row justify-content-md-left">
+        <label for="projectManager" class="col-sm-2 col-form-label">Manager: *</label>
+        <div class="col-sm-6">
+          <input type="text" class="form-control" id="projectManager" name="projectManager" [(ngModel)]="projectManager">
+        </div>
+      </div>
+    </fieldset>
+    <div *ngIf="!editProject; else editProjectDiv" class="row justify-content-md-center">
+      <button type="submit" class="btn btn-primary mr-2" (click)="onAddProject()">Add Project</button>
+      <button type="reset" class="btn btn-primary" (click)="onReset()">Reset</button>
+    </div>
+    <ng-template #editProjectDiv>
+      <div class="row justify-content-md-center">
+        <button type="submit" class="btn btn-primary mr-2" (click)="onUpdateProject()">Update</button>
+        <button type="reset" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+      </div>
+    </ng-template>
+  </form>
+  <hr>
+  <div class="mb-3">
+    <input type="text" placeholder="Search...">
+    <span class="ml-5 mr-2">Sort By:   </span>
+    <button class="btn btn-primary mr-3">Start Date</button>
+    <button class="btn btn-primary mr-3">End Date</button>
+    <button class="btn btn-primary mr-3">Priority</button>
+    <button class="btn btn-primary mr-3">Status</button>
+  </div>
+  <div>
+    <table class="table">
+      <tr>
+        <th>Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>No of Tasks</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let project of projects">
+        <td>{{ project.title }}</td>
+        <td>{{ project.startDate.substring(0,10) }}</td>
+        <td>{{ project.endDate.substring(0,10) }}</td>
+        <td>{{ project.noOfTask }}</td>
+        <td>{{ project.priority }}</td>
+        <td>{{ project.status }}</td>
+        <td>
+          <button class="btn btn-primary mr-1" (click)="onUpdateProjectClick(project)">Update</button>
+          <button class="btn btn-primary mr-1" (click)="onSuspend()">Suspend</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
