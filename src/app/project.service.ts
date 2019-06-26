@@ -12,8 +12,8 @@ export class ProjectService {
   projects: Project[] = [
     {
       title: "Project1",
-      projectManager:"Yusuf",
-      projectId:1,
+      projectManager: "Yusuf",
+      projectId: 1,
       startDate: "2019-01-01",
       endDate: "2019-02-01",
       priority: 10,
@@ -36,6 +36,25 @@ export class ProjectService {
   }
   getProjects() {
     return this.http.get("http://localhost:3000/projects");
+  }
+  updateProject(projectId: number, project: Project) {
+    const updateProjectUrl = "http://localhost:3000/projects/" + projectId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    };
+    return this.http.put<Project>(updateProjectUrl, project, httpOptions);
+  }
+  suspendProject(projectId: number) {
+    const suspendProjectUrl =
+      "http://localhost:3000/projects/suspend/" + projectId;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    };
+    return this.http.put<Project>(suspendProjectUrl, httpOptions);
   }
   addProject(project: Project): Observable<Project> {
     const httpOptions = {

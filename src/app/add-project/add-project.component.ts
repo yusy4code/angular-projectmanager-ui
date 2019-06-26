@@ -11,13 +11,36 @@ import { Project } from "../project";
 })
 export class AddProjectComponent implements OnInit {
   projects: Project[];
+  filteredProject: Project[];
   editProject: boolean = false;
+  projectId: number;
   title: String;
   status: String;
   projectManager: String;
   startDate: String;
   endDate: String;
   priority: number;
+  noOfTask: number;
+  _projectFilter: string;
+
+  get projectFilter(): string {
+    return this._projectFilter;
+  }
+  set projectFilter(value: string) {
+    this._projectFilter = value;
+    this.filteredProject = this.projectFilter
+      ? this.performTaskFilter(this.projectFilter)
+      : this.projects;
+  }
+  performTaskFilter(filterBy: string) {
+    console.log(this.projects);
+    filterBy = filterBy.toLowerCase();
+    console.log(typeof this.projects);
+    return this.projects.filter((singleProject: Project) => {
+      console.log(singleProject.title.toLowerCase());
+      return singleProject.title.toLowerCase().indexOf(filterBy) !== -1;
+    });
+  }
 
   constructor(
     private projectService: ProjectService,
@@ -28,6 +51,7 @@ export class AddProjectComponent implements OnInit {
     this.onReset();
     this.projectService.getProjects().subscribe(data => {
       this.projects = <any>data["data"];
+      this.filteredProject = this.projects;
     });
   }
 
@@ -61,20 +85,61 @@ export class AddProjectComponent implements OnInit {
   }
   onUpdateProject() {
     this.editProject = false;
-    console.log("Updated..");
+    const proj_obj = {
+      projectId: this.projectId,
+      title: this.title,
+      projectManager: this.projectManager,
+      priority: this.priority,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      status: this.status,
+      noOfTask: this.noOfTask
+    };
+    console.log("Before update sent ");
+    console.log(proj_obj);
+    if (!this.projectService.validateProject(proj_obj)) {
+      this.flashMessage.show("Fill in all mandatory fields", {
+        cssClass: "alert-danger",
+        timeout: 3000
+      });
+    } else {
+      this.projectService
+        .updateProject(this.projectId, proj_obj)
+        .subscribe(data => {
+          console.log(data);
+          this.flashMessage.show("Project Updated successfully", {
+            cssClass: "alert-success",
+            timeout: 3000
+          });
+          this.ngOnInit();
+        });
+    }
   }
   onCancel() {
     console.log("Cancelled..");
     this.onReset();
     this.editProject = false;
   }
+  onSuspend(project) {
+    this.projectService.suspendProject(project.projectId).subscribe(data => {
+      console.log(data);
+      this.flashMessage.show("Project Suspended successfully", {
+        cssClass: "alert-success",
+        timeout: 3000
+      });
+      this.ngOnInit();
+    });
+  }
   onUpdateProjectClick(project) {
     this.editProject = true;
+    this.projectId = project.projectId;
     this.title = project.title;
     this.startDate = project.startDate.substring(0, 10);
     this.endDate = project.endDate.substring(0, 10);
     this.priority = project.priority;
     this.projectManager = project.projectManager;
+    this.noOfTask = project.noOfTask;
+    this.status = project.status;
     console.log(project);
   }
   onReset() {
