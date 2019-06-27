@@ -15,10 +15,29 @@ export class AddUserComponent implements OnInit {
   lastName: String;
   employeeId: number;
 
+  _userFilter: string;
+  filteredUser: User[];
+
   editFlag: boolean = false;
 
   users: User[];
-
+  get userFilter(): string {
+    return this._userFilter;
+  }
+  set userFilter(value: string) {
+    this._userFilter = value;
+    this.filteredUser = this.userFilter
+      ? this.performUserFilter(this.userFilter)
+      : this.users;
+    console.log(this.filteredUser);
+  }
+  performUserFilter(filterBy: string) {
+    filterBy = filterBy.toLowerCase();
+    //console.log(typeof this.projects);
+    return this.users.filter((singleUser: User) => {
+      return singleUser.firstName.toLowerCase().indexOf(filterBy) !== -1;
+    });
+  }
   constructor(
     private flashMessage: FlashMessagesService,
     private userService: UserService
@@ -29,6 +48,7 @@ export class AddUserComponent implements OnInit {
     this.userService.getUser().subscribe(response => {
       if (response["success"]) {
         this.users = <any>response["data"];
+        this.filteredUser = this.users;
       }
     });
   }

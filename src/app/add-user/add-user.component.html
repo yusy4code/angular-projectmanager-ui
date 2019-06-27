@@ -34,7 +34,7 @@
   </form>
   <hr>
   <div class="mb-3">
-    <input type="text" placeholder="Search...">
+    <input type="text" placeholder="Search..." [(ngModel)]="userFilter">
     <span class="ml-5 mr-2">Sort:   </span>
     <button class="btn btn-primary mr-3">First Name</button>
     <button class="btn btn-primary mr-3">Last Name</button>
@@ -48,7 +48,7 @@
         <th>Employee ID</th>
         <th>Action</th>
       </tr>
-      <tr *ngFor="let user of users">
+      <tr *ngFor="let user of filteredUser">
         <td>{{ user.firstName }}</td>
         <td>{{ user.lastName }}</td>
         <td>{{ user.employeeId }}</td>
