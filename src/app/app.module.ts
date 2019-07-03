@@ -12,6 +12,7 @@ import { AddUserComponent } from "./add-user/add-user.component";
 import { ViewTasksComponent } from "./view-tasks/view-tasks.component";
 import { AddProjectComponent } from "./add-project/add-project.component";
 import { AddTaskComponent } from "./add-task/add-task.component";
+import { EditTaskComponent } from "./edit-task/edit-task.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AddTaskComponent } from "./add-task/add-task.component";
     AddUserComponent,
     ViewTasksComponent,
     AddProjectComponent,
-    AddTaskComponent
+    AddTaskComponent,
+    EditTaskComponent
   ],
   imports: [
     BrowserModule,
@@ -34,17 +36,22 @@ import { AddTaskComponent } from "./add-task/add-task.component";
         component: WelcomeComponent
       },
       {
+        path: "tasks/add",
+        component: AddTaskComponent
+      },
+      {
         path: "tasks",
         component: ViewTasksComponent
+      },
+      {
+        path: "tasks/:id",
+        component: EditTaskComponent
       },
       {
         path: "projects",
         component: AddProjectComponent
       },
-      {
-        path: "tasks/add",
-        component: AddTaskComponent
-      },
+
       {
         path: "users",
         component: AddUserComponent

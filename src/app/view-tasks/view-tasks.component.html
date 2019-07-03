@@ -1,1 +1,41 @@
-<h1>ho ho </h1>
+<div class="container">
+    <div>
+        Task: <input type="text" placeholder="Search Task..." [(ngModel)]="taskFilter">
+        <span class="ml-5 mr-2">Sort Task By:   </span>
+        <button class="btn btn-primary mr-3" (click)="sortBy('start_date')">Start Date</button>
+        <button class="btn btn-primary mr-3" (click)="sortBy('end_date')">End Date</button>
+        <button class="btn btn-primary mr-3" (click)="sortBy('priority')">Priority</button>
+        <button class="btn btn-primary mr-3" (click)="sortBy('status')">Status</button>
+    </div>
+    <br>
+    <div>
+        <table class="table">
+            <tr>
+                <th>Project</th>
+                <th>Task</th>
+                <th>Parent Tasks</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Priority</th>
+                <th>Task Completed</th>
+                <th>Action</th>
+            </tr>
+            <tr *ngFor="let task of filteredTask">
+                <td>{{ task.projectTitle }}</td>
+                <td>{{ task.taskName }}</td>
+                <td>{{ task.parentTask }}</td>
+                <td>{{ task.startDate.substring(0,10) }}</td>
+                <td>{{ task.endDate.substring(0,10) }}</td>
+                <td>{{ task.priority }}</td>
+                <td>{{ task.isCompleted }}</td>
+                <td *ngIf="!task.isCompleted; else taskCompleted">
+                    <button class="btn btn-primary mr-1" [routerLink]="['/tasks', task.taskId]">Edit</button>
+                    <button class="btn btn-primary mr-1" (click)="onEndTask(task.taskId)">End Task</button>
+                </td>
+                <ng-template #taskCompleted>
+                    <td>Task Completed</td>
+                </ng-template>
+            </tr>
+        </table>
+    </div>
+</div>

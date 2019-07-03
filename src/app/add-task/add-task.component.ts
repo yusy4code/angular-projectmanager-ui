@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { TaskService } from "../task.service";
 import { FlashMessagesService } from "angular2-flash-messages";
+import { Router } from "@angular/router";
 
 import { Task } from "../task";
 
@@ -23,7 +24,8 @@ export class AddTaskComponent implements OnInit {
 
   constructor(
     private flashMessage: FlashMessagesService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -64,7 +66,8 @@ export class AddTaskComponent implements OnInit {
           cssClass: "alert-success",
           timeout: 3000
         });
-        this.ngOnInit();
+        //this.ngOnInit();
+        this.router.navigate(["/tasks"]);
       });
     }
   }

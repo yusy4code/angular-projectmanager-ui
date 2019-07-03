@@ -45,10 +45,10 @@
   <div class="mb-3">
     <input type="text" placeholder="Search..." [(ngModel)]="projectFilter">
     <span class="ml-5 mr-2">Sort By:   </span>
-    <button class="btn btn-primary mr-3">Start Date</button>
-    <button class="btn btn-primary mr-3">End Date</button>
-    <button class="btn btn-primary mr-3">Priority</button>
-    <button class="btn btn-primary mr-3">Status</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('start_date')">Start Date</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('end_date')">End Date</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('priority')">Priority</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('status')">Status</button>
   </div>
   <div>
     <table class="table">

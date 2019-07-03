@@ -12,6 +12,8 @@ import { Project } from "../project";
 export class AddProjectComponent implements OnInit {
   projects: Project[];
   filteredProject: Project[];
+  sortedProject: Project[];
+
   editProject: boolean = false;
   projectId: number;
   title: String;
@@ -52,6 +54,7 @@ export class AddProjectComponent implements OnInit {
     this.projectService.getProjects().subscribe(data => {
       this.projects = <any>data["data"];
       this.filteredProject = this.projects;
+      this.sortedProject = this.projects;
     });
   }
 
@@ -150,5 +153,38 @@ export class AddProjectComponent implements OnInit {
     this.startDate = undefined;
     this.endDate = undefined;
     this.priority = undefined;
+  }
+
+  // Sorting functions
+
+  sortBy(value: string) {
+    this.sortedProject = this.filteredProject;
+    if (value === "priority") {
+      this.filteredProject = this.sortedProject.sort(this.sortPriority);
+    } else if (value === "status") {
+      this.filteredProject = this.sortedProject.sort(this.sortStatus);
+    } else if (value === "start_date") {
+      this.filteredProject = this.sortedProject.sort(this.sortStartDate);
+    } else if (value === "end_date") {
+      this.filteredProject = this.sortedProject.sort(this.sortEndDate);
+    }
+  }
+  sortStatus(p1: Project, p2: Project) {
+    if (p1.status < p2.status) {
+      return -1;
+    }
+    if (p1.status > p2.status) {
+      return 1;
+    }
+    return 0;
+  }
+  sortPriority(p1: Project, p2: Project) {
+    return p1.priority - p2.priority;
+  }
+  sortStartDate(p1: Project, p2: Project) {
+    return (new Date(p2.startDate)).getTime() - (new Date(p1.startDate)).getTime();
+  }
+  sortEndDate(p1: Project, p2: Project) {
+    return new Date(p2.endDate).getTime() - new Date(p1.endDate).getTime();
   }
 }

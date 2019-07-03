@@ -17,6 +17,7 @@ export class AddUserComponent implements OnInit {
 
   _userFilter: string;
   filteredUser: User[];
+  sortedUser: User[];
 
   editFlag: boolean = false;
 
@@ -33,7 +34,6 @@ export class AddUserComponent implements OnInit {
   }
   performUserFilter(filterBy: string) {
     filterBy = filterBy.toLowerCase();
-    //console.log(typeof this.projects);
     return this.users.filter((singleUser: User) => {
       return singleUser.firstName.toLowerCase().indexOf(filterBy) !== -1;
     });
@@ -49,6 +49,7 @@ export class AddUserComponent implements OnInit {
       if (response["success"]) {
         this.users = <any>response["data"];
         this.filteredUser = this.users;
+        this.sortedUser = this.users;
       }
     });
   }
@@ -110,6 +111,7 @@ export class AddUserComponent implements OnInit {
       });
     }
   }
+
   onDelete(user) {
     this.userService.removeUser(user.userId).subscribe(data => {
       console.log(data);
@@ -130,5 +132,38 @@ export class AddUserComponent implements OnInit {
 
   onCancel() {
     this.onReset();
+  }
+
+  // Sorting functions
+  sortBy(value: string) {
+    this.sortedUser = this.filteredUser;
+    if (value === "first_name") {
+      this.filteredUser = this.sortedUser.sort(this.sortFirstName);
+    } else if (value === "last_name") {
+      this.filteredUser = this.sortedUser.sort(this.sortLastName);
+    } else if (value === "empid") {
+      this.filteredUser = this.sortedUser.sort(this.sortEmpId);
+    }
+  }
+  sortEmpId(u1: User, u2: User) {
+    return u1.employeeId - u2.employeeId;
+  }
+  sortFirstName(u1: User, u2: User) {
+    if (u1.firstName < u2.firstName) {
+      return -1;
+    }
+    if (u1.firstName > u2.firstName) {
+      return 1;
+    }
+    return 0;
+  }
+  sortLastName(u1: User, u2: User) {
+    if (u1.lastName < u2.lastName) {
+      return -1;
+    }
+    if (u1.lastName > u2.lastName) {
+      return 1;
+    }
+    return 0;
   }
 }

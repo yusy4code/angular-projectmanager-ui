@@ -36,9 +36,9 @@
   <div class="mb-3">
     <input type="text" placeholder="Search..." [(ngModel)]="userFilter">
     <span class="ml-5 mr-2">Sort:   </span>
-    <button class="btn btn-primary mr-3">First Name</button>
-    <button class="btn btn-primary mr-3">Last Name</button>
-    <button class="btn btn-primary mr-3">Emp ID</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('first_name')">First Name</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('last_name')">Last Name</button>
+    <button class="btn btn-primary mr-3" (click)="sortBy('empid')">Emp ID</button>
   </div>
   <div>
     <table class="table">
