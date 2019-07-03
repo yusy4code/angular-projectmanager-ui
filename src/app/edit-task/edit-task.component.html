@@ -5,7 +5,10 @@
       <div class="form-group row justify-content-md-center">
         <label for="projectTitle" class="col-sm-2 col-form-label">Project: *</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="projectTitle" name="projectTitle" [(ngModel)]="projectTitle">
+          <!-- <input type="text" class="form-control" id="projectTitle" name="projectTitle" [(ngModel)]="projectTitle"> -->
+          <select id="projectTitle" name="projectTitle" [(ngModel)]="projectTitle" class="form-control">
+            <option *ngFor="let project of projects" [value]="project.title">{{ project.title }}</option>
+          </select>
         </div>
       </div>
       <div class="form-group row justify-content-md-center">
@@ -42,7 +45,10 @@
       <div class="form-group row justify-content-md-center">
         <label for="assignedTo" class="col-sm-2 col-form-label">Assigned To: *</label>
         <div class="col-sm-5">
-          <input type="text" class="form-control" id="assignedTo" name="assignedTo" [(ngModel)]="assignedTo">
+          <!-- <input type="text" class="form-control" id="assignedTo" name="assignedTo" [(ngModel)]="assignedTo"> -->
+          <select id="assignedTo" name="assignedTo" [(ngModel)]="assignedTo" class="form-control">
+            <option *ngFor="let user of users" [value]="user.firstName">{{ user.firstName }}</option>
+          </select>
         </div>
       </div>
     </fieldset>

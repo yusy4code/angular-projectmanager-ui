@@ -26,7 +26,10 @@
       <div class="form-group row justify-content-md-left">
         <label for="projectManager" class="col-sm-2 col-form-label">Manager: *</label>
         <div class="col-sm-6">
-          <input type="text" class="form-control" id="projectManager" name="projectManager" [(ngModel)]="projectManager">
+          <!-- <input type="text" class="form-control" id="projectManager" name="projectManager" [(ngModel)]="projectManager"> -->
+          <select id="projectManager" name="projectManager" [(ngModel)]="projectManager" class="form-control">
+            <option *ngFor="let user of users" [value]="user.firstName">{{ user.firstName }}</option>
+        </select>
         </div>
       </div>
     </fieldset>

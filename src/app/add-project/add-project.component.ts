@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ProjectService } from "../project.service";
 import { FlashMessagesService } from "angular2-flash-messages";
+import { UserService } from "../user.service";
 
 import { Project } from "../project";
+import { User } from "../user";
 
 @Component({
   selector: "app-add-project",
@@ -13,6 +15,7 @@ export class AddProjectComponent implements OnInit {
   projects: Project[];
   filteredProject: Project[];
   sortedProject: Project[];
+  users: User[];
 
   editProject: boolean = false;
   projectId: number;
@@ -46,7 +49,8 @@ export class AddProjectComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private flashMessage: FlashMessagesService
+    private flashMessage: FlashMessagesService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
@@ -55,6 +59,11 @@ export class AddProjectComponent implements OnInit {
       this.projects = <any>data["data"];
       this.filteredProject = this.projects;
       this.sortedProject = this.projects;
+    });
+    this.userService.getUser().subscribe(response => {
+      if (response["success"]) {
+        this.users = <any>response["data"];
+      }
     });
   }
 
@@ -182,9 +191,21 @@ export class AddProjectComponent implements OnInit {
     return p1.priority - p2.priority;
   }
   sortStartDate(p1: Project, p2: Project) {
-    return (new Date(p2.startDate)).getTime() - (new Date(p1.startDate)).getTime();
+    if (p1.startDate < p2.startDate) {
+      return -1;
+    }
+    if (p1.startDate > p2.startDate) {
+      return 1;
+    }
+    return 0;
   }
   sortEndDate(p1: Project, p2: Project) {
-    return new Date(p2.endDate).getTime() - new Date(p1.endDate).getTime();
+    if (p1.endDate < p2.endDate) {
+      return -1;
+    }
+    if (p1.endDate > p2.endDate) {
+      return 1;
+    }
+    return 0;
   }
 }

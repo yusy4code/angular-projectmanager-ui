@@ -1,9 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { TaskService } from "../task.service";
+import { ProjectService } from "../project.service";
 import { FlashMessagesService } from "angular2-flash-messages";
 import { Router } from "@angular/router";
+import { UserService } from "../user.service";
 
 import { Task } from "../task";
+import { User } from "../user";
+import { Project } from "../project";
 
 @Component({
   selector: "app-add-task",
@@ -21,15 +25,27 @@ export class AddTaskComponent implements OnInit {
   endDate: String;
   assignedTo: String;
   isCompleted: boolean;
+  users: User[];
+  projects: Project[];
 
   constructor(
+    private projectService: ProjectService,
     private flashMessage: FlashMessagesService,
     private taskService: TaskService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
     this.onReset();
+    this.projectService.getProjects().subscribe(data => {
+      this.projects = <any>data["data"];
+    });
+    this.userService.getUser().subscribe(response => {
+      if (response["success"]) {
+        this.users = <any>response["data"];
+      }
+    });
   }
 
   onReset() {

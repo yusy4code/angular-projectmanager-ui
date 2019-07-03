@@ -54,10 +54,22 @@ export class ViewTasksComponent implements OnInit {
     return t1.priority - t2.priority;
   }
   sortStartDate(t1: Task, t2: Task) {
-    return new Date(t2.startDate).getTime() - new Date(t1.startDate).getTime();
+    if (t1.startDate < t2.startDate) {
+      return -1;
+    }
+    if (t1.startDate > t2.startDate) {
+      return 1;
+    }
+    return 0;
   }
   sortEndDate(t1: Task, t2: Task) {
-    return new Date(t2.endDate).getTime() - new Date(t1.endDate).getTime();
+    if (t1.endDate < t2.endDate) {
+      return -1;
+    }
+    if (t1.endDate > t2.endDate) {
+      return 1;
+    }
+    return 0;
   }
   onEndTask(id) {
     this.taskService.endTask(id).subscribe(data => {
